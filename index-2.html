@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProjectKiki.tv — DayZ Server Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink:        #FF0081;
+      --pink-dim:    rgba(255,0,129,0.08);
+      --pink-border: rgba(255,0,129,0.25);
+      --bg-base:     #080c12;
+      --bg-surface:  #0d1520;
+      --bg-deep:     #060a10;
+      --bg-mid:      #0b1018;
+      --border:      #1a2535;
+      --text-primary:   #c8d4e0;
+      --text-secondary: #5a7090;
+      --text-muted:     #2a3d52;
+      --text-white:     #ffffff;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-base);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 32px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 25px;
+      font-weight: 500;
+      color: var(--pink);
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .nav-link {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      transition: color 0.15s;
+    }
+    .nav-link:hover,
+    .nav-link.active { color: var(--text-primary); }
+
+    /* ── Social Bar ── */
+   
+   .social-bar-header {
+        padding-left: 40px;
+        padding-top: 5px;
+        color: var(--pink);
+        background: var(--bg-mid);
+}
+   
+    .social-bar {
+      background: var(--bg-mid);
+      border-bottom: 0.5px solid var(--border);
+      padding: 9px 32px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg-base);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .social-pill i { font-size: 25px; }
+    .social-pill:hover { border-color: var(--text-muted); color: var(--text-primary); }
+    .social-pill.twitch { border-color: #4a3a7a; color: #a88ff0; }
+    .social-pill.twitch:hover { border-color: #7c5fcc; }
+    .social-pill.etsy   { border-color: #7a3a1a; color: #e8895a; }
+    .social-pill.etsy:hover { border-color: #c4531e; }
+    .social-pill.insta  { border-color: var(--pink-border); color: var(--pink); }
+    .social-pill.insta:hover { border-color: var(--pink); }
+    .social-pill.twitter  { border-color: #698ba9; color: #698ba9; }
+    .social-pill.twitter:hover { border-color: #698ba9; }
+
+
+    /* ── Main Layout ── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── Bento Grid ── */
+    .bento-row-top {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 16px;
+    }
+
+    /* ── Bento Cell ── */
+    .bento {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .bento-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--pink);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ── About Cell ── */
+    #about { scroll-margin-top: 70px; }
+    .about-name {
+      font-size: 35px;
+      font-weight: 500;
+      color: var(--text-white);
+      margin-bottom: 3px;
+      letter-spacing: -0.02em;
+    }
+    .about-name span { color: var(--pink); }
+    .about-handle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+    }
+    .about-bio {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+    .about-accent {
+      position: absolute;
+      bottom: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--pink-dim);
+      border: 0.5px solid var(--pink-border);
+      pointer-events: none;
+    }
+
+    /* ── Etsy Cell ── */
+    .etsy-cell {
+      display: flex;
+      flex-direction: column;
+    }
+    .etsy-img-wrap {
+      background: var(--bg-deep);
+      border-radius: var(--radius-sm);
+      border: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex: 1;
+      min-height: 140px;
+      margin-bottom: 14px;
+    }
+    .etsy-img-wrap img {
+      max-width: 100%;
+      max-height: 180px;
+      object-fit: contain;
+      display: block;
+    }
+    /* Placeholder shown when image fails to load or src is empty */
+    .etsy-img-wrap .img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+    .etsy-img-wrap .img-placeholder i { font-size: 28px; color: var(--border); }
+    .etsy-product-title {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .etsy-btn {
+      display: block;
+      background: rgba(245,100,0,0.1);
+      border: 0.5px solid rgba(245,100,0,0.3);
+      color: #e8895a;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      letter-spacing: 0.03em;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .etsy-btn:hover {
+      background: rgba(245,100,0,0.18);
+      border-color: rgba(245,100,0,0.5);
+    }
+
+    /* ── Server Table Cell ── */
+    #servers { scroll-margin-top: 70px; }
+    .server-cell {
+      padding: 0;
+      overflow: hidden;
+    }
+    .cell-header-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 12px 22px;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg-mid);
+    }
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 180px;
+    }
+    .search-wrap i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 7px 10px 7px 32px;
+      font-size: 12px;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { border-color: var(--pink-border); }
+
+    .chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip {
+      padding: 5px 11px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border);
+      font-size: 10px;
+      color: var(--text-secondary);
+      background: var(--bg-base);
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .chip:hover { border-color: var(--text-muted); color: var(--text-primary); }
+    .chip.active {
+      border-color: var(--pink-border);
+      color: var(--pink);
+      background: var(--pink-dim);
+    }
+
+    /* Table */
+    .tbl-wrap { overflow-x: auto; }
+    table.server-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    table.server-table th,
+    table.server-table td {
+      padding: 9px 12px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    table.server-table thead tr {
+      background: var(--bg-mid);
+      border-bottom: 0.5px solid var(--border);
+    }
+    table.server-table th {
+      font-size: 10px;
+      letter-spacing: 0.07em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    table.server-table th.sortable {
+      cursor: pointer;
+      user-select: none;
+    }
+    table.server-table th.sortable:hover { color: var(--text-primary); }
+    table.server-table th.sort-asc,
+    table.server-table th.sort-desc { color: var(--pink); }
+    .sort-icon { margin-left: 4px; font-size: 10px; opacity: 0.4; }
+    th.sort-asc .sort-icon,
+    th.sort-desc .sort-icon { opacity: 1; }
+    table.server-table tbody tr {
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.1s;
+    }
+    table.server-table tbody tr:last-child { border-bottom: none; }
+    table.server-table tbody tr:hover { background: rgba(255,255,255,0.015); }
+    table.server-table td { font-size: 12px; color: var(--text-secondary); }
+    table.server-table td.td-name {
+      color: var(--pink);
+      font-weight: 500;
+      font-size: 12px;
+    }
+    table.server-table td.td-name .host {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 1px;
+    }
+
+    /* Column widths */
+    .col-name     { width: 28%; }
+    .col-map      { width: 12%; }
+    .col-type     { width: 15%; }
+    .col-restarts { width: 22%; }
+    .col-region   { width: 9%; }
+    .col-links    { width: 18%; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .badge-legacy  { background: rgba(55,138,221,0.1);  color: #7ab0e0; border: 0.5px solid rgba(55,138,221,0.2); }
+    .badge-dm      { background: rgba(239,159,39,0.1);  color: #d4962a; border: 0.5px solid rgba(239,159,39,0.2); }
+    .badge-pt      { background: rgba(29,158,117,0.1);  color: #3db88a; border: 0.5px solid rgba(29,158,117,0.2); }
+    .badge-dev     { background: var(--pink-dim);       color: var(--pink); border: 0.5px solid var(--pink-border); }
+
+    /* Restart times */
+    .restarts {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .restarts.na { color: var(--text-muted); font-style: italic; font-family: var(--font-sans); }
+
+    /* Link buttons */
+    .link-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border: 0.5px solid var(--border);
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      background: var(--bg-mid);
+      cursor: copy;
+      font-family: var(--font-mono);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .copy-btn i { font-size: 13px; }
+    .copy-btn:hover { border-color: var(--pink-border); color: var(--pink); }
+    .copy-btn.copied { border-color: rgba(29,158,117,0.4); color: #3db88a; }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border: 0.5px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-secondary);
+      background: var(--bg-mid);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .icon-btn i { font-size: 15px; }
+    .icon-btn:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+    .icon-btn.discord:hover { border-color: #7c5fcc; color: #a88ff0; }
+    .icon-btn.bm:hover { border-color: #4a8aaa; color: #7ab0e0; }
+
+    /* No results */
+    .no-results {
+      padding: 32px 22px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      display: none;
+    }
+
+    /* ── Collapsible Commands ── */
+    #commands { scroll-margin-top: 70px; }
+    .collapsible {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .collapse-hdr {
+      padding: 15px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+      
+    }
+    .collapse-hdr:hover { background: rgba(255,255,255,0.015); }
+    .collapse-hdr-left { display: flex; align-items: center; gap: 12px; }
+    .collapse-hdr-left i.icon-cmd { color: var(--pink); font-size: 16px; }
+    .collapse-title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+    .collapse-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .chevron { color: var(--pink); font-size: 60px; transition: transform 0.2s; }
+    .collapsible.open .chevron { transform: rotate(180deg); }
+
+    .cmd-body { display: none; border-top: 0.5px solid var(--border); }
+    .collapsible.open .cmd-body { display: block; }
+
+    .server-body { display: none; }
+    .collapsible.open .server-body { display: block; }
+
+    .cmd-filter-bar {
+      display: flex;
+      gap: 8px;
+      padding: 10px 22px;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg-mid);
+      flex-wrap: wrap;
+    }
+
+    .cmd-tbl-wrap { overflow-x: auto; }
+    table.cmd-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    table.cmd-table th,
+    table.cmd-table td {
+      padding: 9px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.cmd-table thead tr {
+      background: var(--bg-mid);
+      border-bottom: 0.5px solid var(--border);
+    }
+    table.cmd-table th {
+      font-size: 10px;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    table.cmd-table tbody tr { border-bottom: 0.5px solid var(--border); }
+    table.cmd-table tbody tr:last-child { border-bottom: none; }
+    table.cmd-table tbody tr:hover { background: rgba(255,255,255,0.015); }
+    table.cmd-table td { font-size: 12px; color: var(--text-secondary); }
+
+    .col-cmd      { width: 18%; }
+    .col-response { width: 48%; }
+    .col-ctype    { width: 16%; }
+    .col-perm     { width: 18%; }
+
+    .cmd-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--pink);
+    }
+    .cmd-note {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      font-style: italic;
+    }
+    .cmd-response-text { line-height: 1.6; }
+    .perm-everyone { color: var(--text-secondary); }
+    .perm-vip  { color: #ff00dd; }
+    .perm-mod  { color: #3db88a; }
+    .type-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 10px;
+    }
+    .type-chat    { background: rgba(55,138,221,0.08); color: #7ab0e0; border: 0.5px solid rgba(55,138,221,0.15); }
+    .type-ctrl    { background: rgba(55,138,221,0.08); color: #7ab0e0; border: 0.5px solid rgba(55,138,221,0.15); }
+    .type-media   { background: rgba(55,138,221,0.08); color: #7ab0e0; border: 0.5px solid rgba(55,138,221,0.15); }
+    .type-indicator { background: rgba(55,138,221,0.08); color: #7ab0e0; border: 0.5px solid rgba(55,138,221,0.15); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--bg-deep);
+      border-top: 0.5px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-l { font-size: 11px; color: var(--text-muted); }
+    .footer-l span { color: var(--pink); }
+    .footer-r { font-size: 10px; color: var(--border); font-family: var(--font-mono); }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .nav { padding: 0 16px; }
+      .social-bar { padding: 8px 16px; }
+      .main { padding: 16px 16px 40px; }
+      .bento-row-top { grid-template-columns: 1fr; }
+      .col-restarts { display: none; }
+      footer { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav class="nav">
+    <div class="nav-logo">ProjectKiki.tv</div>
+    <div class="nav-links">
+      <a class="nav-link active" href="#servers">DayZ Servers</a>
+      <a class="nav-link" href="#commands">Chat Commands</a>
+      <a class="nav-link" href="#about">About</a>
+    </div>
+  </nav>
+
+  <!-- ── Social Bar ── -->
+  <div class="social-bar-header">
+      <i class="social-bar-header-text"></i>Social Links:</div>
+  <div class="social-bar">
+    <a class="social-pill twitch" href="https://twitch.tv/icekvveenkiki" target="_blank" rel="noopener">
+      <i class="ti ti-brand-twitch" aria-hidden="true"></i> IceKvveenKiki
+    </a>
+    <a class="social-pill insta" href="https://instagram.com/icekvveenkiki" target="_blank" rel="noopener">
+      <i class="ti ti-brand-instagram" aria-hidden="true"></i> Instagram
+    </a>
+    <a class="social-pill etsy" href="https://icekvveenkiki.etsy.com" target="_blank" rel="noopener">
+      <i class="ti ti-shopping-bag" aria-hidden="true"></i> Etsy
+    </a>
+     <a class="social-pill twitter" href="https://x.com/icekvveenkiki" target="_blank" rel="noopener">
+      <i class="ti ti-brand-x" aria-hidden="true"></i>
+    </a>
+  </div>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Row 1: About + Etsy -->
+    <div class="bento-row-top">
+
+      <!-- About -->
+      <div class="bento" id="about">
+        <div class="bento-label">Hello and welcome!</div>
+        <div class="about-name"><span>This is Project Kiki</span></div>
+        <div class="about-handle">IceKvveenKiki · Twitch Streamer · SW Project Manager · Nerd</div>
+        <p class="about-bio">
+          Hello, I'm Kiki! I stream DayZ on Twitch, create and sell nerdy merch on Etsy, and make a lot of spreadsheets. In an effort to learn how to code, I made this website (with some help from Claude).<br>
+          Here you'll find my trending DayZ server spreadsheet, Twitch chat commands, and social links. More DayZ related spreadsheets and other projects are coming soon! <br>
+        </p>
+      </div>
+
+      <!-- Etsy feature -->
+      <div class="bento etsy-cell">
+        <div class="bento-label">Kiki Designs Nerdy Stickers</div>
+        <div class="about-name"><span>Kiki's Etsy Shop </span></div>
+        <div class="etsy-img-wrap">
+          <!--
+            TO UPDATE: Replace the src below with your GitHub-hosted image path.
+            Example: src="images/CHR.png"
+            Upload your image to the /images/ folder in your GitHub repo.
+          -->
+          <img
+            src=""
+            alt="Kiki's Chernarus Country Code Decal"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          >
+          <div class="img-placeholder" style="display:flex;">
+            <i class="ti ti-photo" aria-hidden="true"></i>
+            <span>Image coming soon</span>
+          </div>
+        </div>
+        <div class="etsy-product-title">Chernarus Country Code Decal</div>
+        <a class="etsy-btn" href="https://icekvveenkiki.etsy.com/listing/4400142320/dayz-chernarus-flag-country-code-sticker" target="_blank" rel="noopener">
+          View on Etsy
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Row 2: Server Directory -->
+    <div class="collapsible bento server-cell" id="servers">
+      <div class="collapse-hdr" role="button" aria-expanded="false" aria-controls="server-body" tabindex="0">
+        <div class="collapse-hdr-left">
+          <div>
+            <div class="about-name" style="margin-bottom:0"><span>DayZ Servers</span></div>
+              <div class="cell-header-sub">Trending servers curated by Kiki · Send feedback to IceKvveenKiki@gmail.com · Last updated: May 26, 2026</div>
+          </div>
+        </div>
+        <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+      </div>
+
+      <div class="server-body" id="server-body">
+        <div class="filter-bar">
+          <div class="search-wrap">
+            <i class="ti ti-search" aria-hidden="true"></i>
+            <input
+              class="search-input"
+              type="text"
+              id="server-search"
+              placeholder="Search by name, maps, hosts…"
+              aria-label="Search servers"
+            >
+          </div>
+          <div class="chip-group" id="type-filters">
+            <button class="chip active" data-type="all">All</button>
+            <button class="chip" data-type="Legacy">Legacy</button>
+            <button class="chip" data-type="Deathmatch">Deathmatch</button>
+            <button class="chip" data-type="Playtest">Playtest</button>
+            <button class="chip" data-type="In-Development">In-development</button>
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <table class="server-table" aria-label="DayZ Server Directory">
+            <colgroup>
+              <col class="col-name">
+              <col class="col-map">
+              <col class="col-type">
+              <col class="col-restarts">
+              <col class="col-region">
+              <col class="col-links">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="sortable" data-sort="name">Server name <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th class="sortable" data-sort="map">Map <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th class="sortable" data-sort="type">Type <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Restarts (PDT)</th>
+                <th class="sortable" data-sort="region">Region <i class="ti ti-arrows-sort sort-icon"></i></th>
+                <th>Links</th>
+              </tr>
+            </thead>
+            <tbody id="server-tbody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+          <div class="no-results" id="no-results" aria-live="polite">No servers match your search.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Chat Commands -->
+    <div class="collapsible" id="commands">
+      <div class="collapse-hdr" role="button" aria-expanded="false" aria-controls="cmd-body" tabindex="0">
+        <div class="collapse-hdr-left">
+          <div>
+            <div class="about-name" style="margin-bottom:0"><span>Kiki's Twitch Chat Commands</span></div>
+            <div class="cell-header-sub">Twitch commands · click to expand</div>
+          </div>
+        </div>
+        <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+      </div>
+
+      <div class="cmd-body" id="cmd-body">
+        <div class="cmd-filter-bar">
+          <div class="chip-group" id="cmd-filters">
+            <button class="chip active" data-ctype="all">All</button>
+            <button class="chip" data-ctype="Twitch chat response">Chat responses</button>
+            <button class="chip" data-ctype="Stream control">Stream controls</button>
+            <button class="chip" data-ctype="Media">Media</button>
+            <button class="chip" data-ctype="On-screen indicator">On-screen</button>
+          </div>
+        </div>
+        <div class="cmd-tbl-wrap">
+          <table class="cmd-table" aria-label="Twitch Chat Commands">
+            <colgroup>
+              <col class="col-cmd">
+              <col class="col-response">
+              <col class="col-ctype">
+              <col class="col-perm">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Command</th>
+                <th>Response / Action</th>
+                <th>Type</th>
+                <th>Who</th>
+              </tr>
+            </thead>
+            <tbody id="cmd-tbody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-l">Made by <span>Kiki</span> with help from Claude · icekvveenkiki.com</div>
+    <div class="footer-r">projectkiki.tv</div>
+  </footer>
+
+
+  <script>
+    // ─────────────────────────────────────────────
+    // GOOGLE SHEETS CONFIG
+    // To update the server list, edit your Google Sheet.
+    // To point to a different sheet, replace the URL below.
+    // ─────────────────────────────────────────────
+
+    const SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk4A1JGYO61CqaoEF7qWNMlvvuYu1XvNDAw1zESu_xNxGktTmhxe3BRWLGvSRubZ9fRRX0gVPQCUKQ/pub?gid=448090529&single=true&output=csv";
+
+    // ─────────────────────────────────────────────
+    // CSV PARSER
+    // Handles quoted fields and embedded newlines/commas
+    // ─────────────────────────────────────────────
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [], field = "", inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i], next = text[i + 1];
+        if (inQuotes) {
+          if (ch === '"' && next === '"') { field += '"'; i++; }
+          else if (ch === '"') { inQuotes = false; }
+          else { field += ch; }
+        } else {
+          if (ch === '"') { inQuotes = true; }
+          else if (ch === ',') { row.push(field.trim()); field = ""; }
+          else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+            if (ch === '\r') i++;
+            row.push(field.trim()); field = "";
+            rows.push(row); row = [];
+          } else { field += ch; }
+        }
+      }
+      if (field || row.length) { row.push(field.trim()); rows.push(row); }
+      return rows;
+    }
+
+    function csvToObjects(rows) {
+      const headers = rows[0];
+      return rows.slice(1).filter(r => r.some(c => c)).map(row => {
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (row[i] || "").replace(/\n\s*/g, " ").trim(); });
+        return obj;
+      });
+    }
+
+    // Maps Google Sheet column names → internal field names
+    function sheetRowToServer(r) {
+      return {
+        name:         r["Server Name"]        || "",
+        host:         r["Host / Creator"]      || "",
+        map:          r["Map"]                 || "",
+        type:         r["Server Type"]         || "",
+        ip:           r["IP Address"]          || "",
+        restarts:     r["Restart Times (PDT)"] || "",
+        region:       r["Server Location"]     || "",
+        discord:      r["Discord"]             || "",
+        battlemetrics:r["Battlemetrics Page"]  || "",
+        usefulLinks:  r["Useful links"]        || "",
+        note:         ""
+      };
+    }
+
+    // ─────────────────────────────────────────────
+    // DATA — loaded from Google Sheets on page load
+    // ─────────────────────────────────────────────
+
+    let SERVERS = [];
+
+    // ─────────────────────────────────────────────
+    // CHAT COMMANDS DATA (hardcoded — edit here to update)
+    // type must match: "Twitch chat response" | "Stream control" | "Media" | "On-screen indicator"
+    // ─────────────────────────────────────────────
+    const COMMANDS = [
+      { command: "!map", response: "Returns the name of the map Kiki is playing.", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!etsy", response: "I design and sell silly things on Etsy: https://icekvveenkiki.etsy.com/", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!CHR", response: "I made a sticker for Chernarus super fans! https://icekvveenkiki.etsy.com/listing/4400142320/dayz-chernarus-flag-country-code-sticker", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!first", response: "Wow! %user% was first! Big win, very cool. Thank you!", type: "Twitch chat response", permissions: "Everyone", note: "Only works once per stream." },
+      { command: "!mud", response: 'As the great Simone Weil said in "Gravity and Grace": The tendency to spread evil beyond oneself: I still have it! Beings and things are not sacred enough to me. May I never sully anything, even though I be utterly transformed into mud.', type: "Twitch chat response", permissions: "Everyone", note: "A reminder to anyone in chat not to be shitty to one another." },
+      { command: "!patchnotes", response: "You can read the latest DayZ patch notes here from Dec 4, 2025: https://forums.dayz.com/topic/266370-stable-update-128/", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!meta", response: "Please do not share in-game information you've learned from other streams. Do not tell me if I am running with other streamers. Let's keep it organic where possible, thanks!", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!spreadsheets / !server", response: "Checkout my server spreadsheet! I keep a list of the more popular/trending DayZ servers and their GTK info. http://dayzservers.icekvveenkiki.com/", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!lurk", response: "/me %user% is lurkin', but never forgotten", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!discord", response: "ya! https://discord.icekvveenkiki.com/join", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!followage", response: "Returns follow duration.", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!barfos", response: "—", type: "Twitch chat response", permissions: "Everyone", note: "" },
+      { command: "!clip", response: "Creates a clip.", type: "Media", permissions: "Everyone", note: "" },
+      { command: "!gamma?", response: "Returns an on-screen graphic indicating if gamma is enabled or not.", type: "On-screen indicator", permissions: "Everyone", note: "" },
+      { command: "!gamma", response: "Toggles gamma.", type: "Stream control", permissions: "VIPs", note: "" },
+      { command: "!so / !shoutout {user}", response: "icekvvMegaphone Check out %targetUser% at https://twitch.tv/%targetUser% and be sure to give them a follow!", type: "Twitch chat response", permissions: "VIPs", note: "" },
+      { command: "!showgame / !hide / !game", response: "Hides sources in OBS that are covering the game, when Kiki forgets to remove them.", type: "Stream control", permissions: "VIPs", note: "" },
+      { command: "!mutegame", response: "Mutes game audio for stream.", type: "Stream control", permissions: "Mods", note: "" }
+    ];
+
+
+    // ─────────────────────────────────────────────
+    // HELPERS
+    // ─────────────────────────────────────────────
+
+    function badgeHTML(type) {
+      const map = {
+        "Legacy":         ["badge-legacy",  "Legacy"],
+        "Deathmatch":     ["badge-dm",       "Deathmatch"],
+        "Playtest":       ["badge-pt",       "Playtest"],
+        "In-Development": ["badge-dev",      "In-dev"]
+      };
+      const [cls, label] = map[type] || ["badge-legacy", type];
+      return `<span class="badge ${cls}">${label}</span>`;
+    }
+
+    function typeBadgeHTML(type) {
+      const map = {
+        "Twitch chat response": ["type-chat",      "Chat"],
+        "Stream control":       ["type-ctrl",      "Stream ctrl"],
+        "Media":                ["type-media",     "Media"],
+        "On-screen indicator":  ["type-indicator", "On-screen"]
+      };
+      const [cls, label] = map[type] || ["type-chat", type];
+      return `<span class="type-badge ${cls}">${label}</span>`;
+    }
+
+    function permHTML(perm) {
+      if (perm === "VIPs") return `<span class="perm-vip">VIPs</span>`;
+      if (perm === "Mods") return `<span class="perm-mod">Mods</span>`;
+      return `<span class="perm-everyone">Everyone</span>`;
+    }
+
+    function restartsHTML(restarts, type) {
+      if (!restarts || type === "Deathmatch") return `<span class="restarts na">N/A</span>`;
+      if (!restarts) return `<span class="restarts na">TBD</span>`;
+      return `<span class="restarts">${restarts}</span>`;
+    }
+
+    function linksHTML(server) {
+      let html = '<div class="link-group">';
+      if (server.ip && server.ip !== "TBD" && server.ip !== "") {
+        html += `<button class="copy-btn" data-ip="${server.ip}" aria-label="Copy IP address">
+          <i class="ti ti-copy" aria-hidden="true"></i> IP address
+        </button>`;
+      }
+      if (server.discord) {
+        html += `<a class="icon-btn discord" href="${server.discord}" target="_blank" rel="noopener" aria-label="Discord server">
+          <i class="ti ti-brand-discord" aria-hidden="true"></i>
+        </a>`;
+      }
+      if (server.battlemetrics) {
+        html += `<a class="icon-btn bm" href="${server.battlemetrics}" target="_blank" rel="noopener" aria-label="Battlemetrics page">
+          <i class="ti ti-activity" aria-hidden="true"></i>
+        </a>`;
+      }
+      if (server.usefulLinks) {
+        html += `<a class="icon-btn" href="${server.usefulLinks}" target="_blank" rel="noopener" aria-label="Useful link">
+          <i class="ti ti-external-link" aria-hidden="true"></i>
+        </a>`;
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+
+    // ─────────────────────────────────────────────
+    // SERVER TABLE
+    // ─────────────────────────────────────────────
+
+    const tbody        = document.getElementById("server-tbody");
+    const searchInput  = document.getElementById("server-search");
+    const noResults    = document.getElementById("no-results");
+    const typeFilters  = document.getElementById("type-filters");
+
+    let activeType   = "all";
+    let searchQuery  = "";
+    let sortKey      = null;  // "name" | "map" | "type" | "region"
+    let sortDir      = "asc"; // "asc" | "desc"
+
+    function renderServers() {
+      const q = searchQuery.toLowerCase();
+      let filtered = SERVERS.filter(s => {
+        const matchType = activeType === "all" || s.type === activeType;
+        const matchSearch = !q ||
+          s.name.toLowerCase().includes(q) ||
+          s.map.toLowerCase().includes(q) ||
+          (s.host && s.host.toLowerCase().includes(q)) ||
+          s.type.toLowerCase().includes(q) ||
+          (s.region && s.region.toLowerCase().includes(q));
+        return matchType && matchSearch;
+      });
+
+      // Apply sort if a column is active
+      if (sortKey) {
+        filtered = [...filtered].sort((a, b) => {
+          const valA = (a[sortKey] || "").toLowerCase();
+          const valB = (b[sortKey] || "").toLowerCase();
+          if (valA < valB) return sortDir === "asc" ? -1 : 1;
+          if (valA > valB) return sortDir === "asc" ? 1 : -1;
+          return 0;
+        });
+      }
+
+      // Update sort icon states on headers
+      document.querySelectorAll("table.server-table th.sortable").forEach(th => {
+        th.classList.remove("sort-asc", "sort-desc");
+        const icon = th.querySelector(".sort-icon");
+        if (icon) icon.className = "ti ti-arrows-sort sort-icon";
+        if (th.dataset.sort === sortKey) {
+          th.classList.add(sortDir === "asc" ? "sort-asc" : "sort-desc");
+          if (icon) icon.className = `ti ti-sort-${sortDir === "asc" ? "ascending" : "descending"} sort-icon`;
+        }
+      });
+
+      noResults.style.display  = filtered.length === 0 ? "block" : "none";
+
+      tbody.innerHTML = filtered.map(s => `
+        <tr data-type="${escapeHTML(s.type)}">
+          <td class="td-name">
+            ${escapeHTML(s.name)}
+            ${s.host ? `<div class="host">${escapeHTML(s.host)}</div>` : ""}
+            ${s.note ? `<div class="host">${escapeHTML(s.note)}</div>` : ""}
+          </td>
+          <td>${escapeHTML(s.map)}</td>
+          <td>${badgeHTML(s.type)}</td>
+          <td>${restartsHTML(s.restarts, s.type)}</td>
+          <td>${escapeHTML(s.region || "—")}</td>
+          <td>${linksHTML(s)}</td>
+        </tr>
+      `).join("");
+
+      // Re-attach copy button listeners
+      tbody.querySelectorAll(".copy-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const ip = btn.dataset.ip;
+          navigator.clipboard.writeText(ip).then(() => {
+            btn.classList.add("copied");
+            btn.innerHTML = '<i class="ti ti-check" aria-hidden="true"></i> Copied';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<i class="ti ti-copy" aria-hidden="true"></i> IP';
+            }, 2000);
+          }).catch(() => {
+            prompt("Copy this IP address:", ip);
+          });
+        });
+      });
+    }
+
+    // Filter chips
+    typeFilters.addEventListener("click", e => {
+      const chip = e.target.closest(".chip");
+      if (!chip) return;
+      activeType = chip.dataset.type;
+      typeFilters.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      renderServers();
+    });
+
+    // Search
+    searchInput.addEventListener("input", e => {
+      searchQuery = e.target.value;
+      renderServers();
+    });
+
+    // Column sorting
+    document.querySelector("table.server-table thead").addEventListener("click", e => {
+      const th = e.target.closest("th.sortable");
+      if (!th) return;
+      const key = th.dataset.sort;
+      if (sortKey === key) {
+        sortDir = sortDir === "asc" ? "desc" : "asc";
+      } else {
+        sortKey = key;
+        sortDir = "asc";
+      }
+      renderServers();
+    });
+
+    // ─────────────────────────────────────────────
+    // FETCH FROM GOOGLE SHEETS
+    // Updates automatically on every page load.
+    // To update data: edit your Google Sheet — no code changes needed.
+    // ─────────────────────────────────────────────
+
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:24px;text-align:center;color:var(--text-muted);font-size:12px;">Loading servers…</td></tr>`;
+
+    fetch(SHEETS_CSV_URL)
+      .then(res => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.text();
+      })
+      .then(text => {
+        const rows = parseCSV(text);
+        const objects = csvToObjects(rows);
+        SERVERS = objects
+          .map(sheetRowToServer)
+          .filter(s => s.name); // skip blank rows
+        renderServers();
+      })
+      .catch(err => {
+        console.error("Failed to load server data:", err);
+        tbody.innerHTML = `<tr><td colspan="6" style="padding:24px;text-align:center;color:var(--text-muted);font-size:12px;">
+          Could not load server data. Please try refreshing the page.
+        </td></tr>`;
+      });
+
+
+    // ─────────────────────────────────────────────
+    // CHAT COMMANDS TABLE
+    // ─────────────────────────────────────────────
+
+    const cmdTbody   = document.getElementById("cmd-tbody");
+    const cmdFilters = document.getElementById("cmd-filters");
+    let activeCmdType = "all";
+
+    function renderCommands() {
+      const filtered = COMMANDS.filter(c =>
+        activeCmdType === "all" || c.type === activeCmdType
+      );
+
+      cmdTbody.innerHTML = filtered.map(c => `
+        <tr>
+          <td>
+            <div class="cmd-name">${escapeHTML(c.command)}</div>
+            ${c.note ? `<div class="cmd-note">${escapeHTML(c.note)}</div>` : ""}
+          </td>
+          <td><div class="cmd-response-text">${escapeHTML(c.response)}</div></td>
+          <td>${typeBadgeHTML(c.type)}</td>
+          <td>${permHTML(c.permissions)}</td>
+        </tr>
+      `).join("");
+    }
+
+    cmdFilters.addEventListener("click", e => {
+      const chip = e.target.closest(".chip");
+      if (!chip) return;
+      activeCmdType = chip.dataset.ctype;
+      cmdFilters.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      renderCommands();
+    });
+
+    renderCommands();
+
+
+    // ─────────────────────────────────────────────
+    // COLLAPSIBLES
+    // ─────────────────────────────────────────────
+
+    document.querySelectorAll(".collapsible").forEach(collapsible => {
+      const hdr = collapsible.querySelector(".collapse-hdr");
+      if (!hdr) return;
+
+      hdr.addEventListener("click", () => {
+        const isOpen = collapsible.classList.toggle("open");
+        hdr.setAttribute("aria-expanded", isOpen);
+      });
+
+      hdr.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          hdr.click();
+        }
+      });
+    });
+
+    // Auto-open sections if URL hash points to them
+    if (window.location.hash === "#commands") {
+      const el = document.getElementById("commands");
+      if (el) {
+        el.classList.add("open");
+        el.querySelector(".collapse-hdr")?.setAttribute("aria-expanded", "true");
+      }
+    }
+    if (window.location.hash === "#servers") {
+      const el = document.getElementById("servers");
+      if (el) {
+        el.classList.add("open");
+        el.querySelector(".collapse-hdr")?.setAttribute("aria-expanded", "true");
+      }
+    }
+
+  </script>
+</body>
+</html>
