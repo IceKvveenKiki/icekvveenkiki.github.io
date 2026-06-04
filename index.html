@@ -118,6 +118,7 @@
     .social-pill.insta:hover { border-color: var(--pink); }
     .social-pill.twitter  { border-color: #698ba9; color: #698ba9; }
     .social-pill.twitter:hover { border-color: #698ba9; }
+    .pill-group { display: flex; gap: 10px; align-items: center; }
 
 
     /* ── Main Layout ── */
@@ -563,11 +564,79 @@
     /* ── Responsive ── */
     @media (max-width: 720px) {
       .nav { padding: 0 16px; }
-      .social-bar { padding: 8px 16px; }
+      .nav-logo { font-size: 17px; }
+      .nav-links { gap: 14px; }
+      .social-bar {
+        padding: 8px 16px;
+        justify-content: center;
+      }
       .main { padding: 16px 16px 40px; }
       .bento-row-top { grid-template-columns: 1fr; }
-      .col-restarts { display: none; }
       footer { padding: 12px 16px; }
+
+      /* Server table — card layout */
+      table.server-table thead { display: none; }
+      table.server-table,
+      table.server-table tbody,
+      table.server-table tr { display: block; }
+      table.server-table tr {
+        padding: 12px 16px;
+        border-bottom: 0.5px solid var(--border);
+      }
+      table.server-table tr:last-child { border-bottom: none; }
+      table.server-table td {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 3px 0;
+        border: none;
+        width: 100%;
+      }
+      table.server-table td[data-label]::before {
+        content: attr(data-label);
+        font-size: 10px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        min-width: 58px;
+        flex-shrink: 0;
+      }
+      table.server-table td.td-name {
+        font-size: 13px;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 4px;
+      }
+      table.server-table td.td-restarts { display: flex; }
+
+      /* Commands table — card layout */
+      table.cmd-table thead { display: none; }
+      table.cmd-table,
+      table.cmd-table tbody,
+      table.cmd-table tr { display: block; }
+      table.cmd-table tr {
+        padding: 12px 16px;
+        border-bottom: 0.5px solid var(--border);
+      }
+      table.cmd-table tr:last-child { border-bottom: none; }
+      table.cmd-table td {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 3px 0;
+        border: none;
+        width: 100%;
+      }
+      table.cmd-table td[data-label]::before {
+        content: attr(data-label);
+        font-size: 10px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        min-width: 58px;
+        flex-shrink: 0;
+      }
+      table.cmd-table td:first-child { margin-bottom: 4px; }
     }
   </style>
 </head>
@@ -584,21 +653,24 @@
   </nav>
 
   <!-- ── Social Bar ── -->
-  <div class="social-bar-header">
-      <i class="social-bar-header-text"></i>Social Links:</div>
+  <div class="social-bar-header">Social Links:</div>
   <div class="social-bar">
-    <a class="social-pill twitch" href="https://twitch.tv/icekvveenkiki" target="_blank" rel="noopener">
-      <i class="ti ti-brand-twitch" aria-hidden="true"></i> IceKvveenKiki
-    </a>
-    <a class="social-pill insta" href="https://instagram.com/icekvveenkiki" target="_blank" rel="noopener">
-      <i class="ti ti-brand-instagram" aria-hidden="true"></i> Instagram
-    </a>
-    <a class="social-pill etsy" href="https://icekvveenkiki.etsy.com" target="_blank" rel="noopener">
-      <i class="ti ti-shopping-bag" aria-hidden="true"></i> Etsy
-    </a>
-     <a class="social-pill twitter" href="https://x.com/icekvveenkiki" target="_blank" rel="noopener">
-      <i class="ti ti-brand-x" aria-hidden="true"></i>
-    </a>
+    <div class="pill-group">
+      <a class="social-pill twitch" href="https://twitch.tv/icekvveenkiki" target="_blank" rel="noopener">
+        <i class="ti ti-brand-twitch" aria-hidden="true"></i> IceKvveenKiki
+      </a>
+      <a class="social-pill insta" href="https://instagram.com/icekvveenkiki" target="_blank" rel="noopener">
+        <i class="ti ti-brand-instagram" aria-hidden="true"></i> Instagram
+      </a>
+    </div>
+    <div class="pill-group">
+      <a class="social-pill etsy" href="https://icekvveenkiki.etsy.com" target="_blank" rel="noopener">
+        <i class="ti ti-shopping-bag" aria-hidden="true"></i> Etsy
+      </a>
+      <a class="social-pill twitter" href="https://x.com/icekvveenkiki" target="_blank" rel="noopener">
+        <i class="ti ti-brand-x" aria-hidden="true"></i>
+      </a>
+    </div>
   </div>
 
   <!-- ── Main ── -->
@@ -887,7 +959,7 @@
     }
 
     function restartsHTML(restarts, type) {
-      if (!restarts || type === "Deathmatch") return `<span class="restarts na">N/A</span>`;
+      if (type === "Deathmatch") return `<span class="restarts na">N/A</span>`;
       if (!restarts) return `<span class="restarts na">TBD</span>`;
       return `<span class="restarts">${restarts}</span>`;
     }
@@ -941,6 +1013,15 @@
     let sortKey      = null;  // "name" | "map" | "type" | "region"
     let sortDir      = "asc"; // "asc" | "desc"
 
+    const TYPE_ORDER = { "Legacy": 0, "Deathmatch": 1, "Playtest": 2, "In-Development": 3 };
+
+    function defaultSort(a, b) {
+      const typeA = TYPE_ORDER[a.type] ?? 99;
+      const typeB = TYPE_ORDER[b.type] ?? 99;
+      if (typeA !== typeB) return typeA - typeB;
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    }
+
     function renderServers() {
       const q = searchQuery.toLowerCase();
       let filtered = SERVERS.filter(s => {
@@ -954,7 +1035,7 @@
         return matchType && matchSearch;
       });
 
-      // Apply sort if a column is active
+      // Apply column sort if active, otherwise use default (type then name)
       if (sortKey) {
         filtered = [...filtered].sort((a, b) => {
           const valA = (a[sortKey] || "").toLowerCase();
@@ -963,6 +1044,8 @@
           if (valA > valB) return sortDir === "asc" ? 1 : -1;
           return 0;
         });
+      } else {
+        filtered = [...filtered].sort(defaultSort);
       }
 
       // Update sort icon states on headers
@@ -985,11 +1068,11 @@
             ${s.host ? `<div class="host">${escapeHTML(s.host)}</div>` : ""}
             ${s.note ? `<div class="host">${escapeHTML(s.note)}</div>` : ""}
           </td>
-          <td>${escapeHTML(s.map)}</td>
-          <td>${badgeHTML(s.type)}</td>
-          <td>${restartsHTML(s.restarts, s.type)}</td>
-          <td>${escapeHTML(s.region || "—")}</td>
-          <td>${linksHTML(s)}</td>
+          <td data-label="Map">${escapeHTML(s.map)}</td>
+          <td data-label="Type">${badgeHTML(s.type)}</td>
+          <td class="td-restarts" data-label="Restarts">${restartsHTML(s.restarts, s.type)}</td>
+          <td data-label="Region">${escapeHTML(s.region || "—")}</td>
+          <td data-label="Links">${linksHTML(s)}</td>
         </tr>
       `).join("");
 
@@ -1089,9 +1172,9 @@
             <div class="cmd-name">${escapeHTML(c.command)}</div>
             ${c.note ? `<div class="cmd-note">${escapeHTML(c.note)}</div>` : ""}
           </td>
-          <td><div class="cmd-response-text">${escapeHTML(c.response)}</div></td>
-          <td>${typeBadgeHTML(c.type)}</td>
-          <td>${permHTML(c.permissions)}</td>
+          <td data-label="Response"><div class="cmd-response-text">${escapeHTML(c.response)}</div></td>
+          <td data-label="Type">${typeBadgeHTML(c.type)}</td>
+          <td data-label="Who">${permHTML(c.permissions)}</td>
         </tr>
       `).join("");
     }
