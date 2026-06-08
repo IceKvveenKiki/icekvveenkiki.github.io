@@ -930,6 +930,28 @@
     // HELPERS
     // ─────────────────────────────────────────────
 
+    function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+      // Fallback for local file:// or non-secure contexts
+      const el = document.createElement("textarea");
+      el.value = text;
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.focus();
+      el.select();
+      try {
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        return Promise.resolve();
+      } catch (err) {
+        document.body.removeChild(el);
+        return Promise.reject(err);
+      }
+    }
+
     function badgeHTML(type) {
       const map = {
         "Legacy":         ["badge-legacy",  "Legacy"],
@@ -1080,7 +1102,7 @@
       tbody.querySelectorAll(".copy-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           const ip = btn.dataset.ip;
-          navigator.clipboard.writeText(ip).then(() => {
+          copyToClipboard(ip).then(() => {
             btn.classList.add("copied");
             btn.innerHTML = '<i class="ti ti-check" aria-hidden="true"></i> Copied';
             setTimeout(() => {
