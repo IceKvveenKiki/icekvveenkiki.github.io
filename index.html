@@ -646,14 +646,13 @@
   <nav class="nav">
     <div class="nav-logo">ProjectKiki.tv</div>
     <div class="nav-links">
-      <a class="nav-link active" href="#servers">DayZ Servers</a>
+      <a class="nav-link" href="#servers">DayZ Servers</a>
       <a class="nav-link" href="#commands">Chat Commands</a>
       <a class="nav-link" href="#about">About</a>
     </div>
   </nav>
 
   <!-- ── Social Bar ── -->
-  <div class="social-bar-header">Social Links:</div>
   <div class="social-bar">
     <div class="pill-group">
       <a class="social-pill twitch" href="https://twitch.tv/icekvveenkiki" target="_blank" rel="noopener">
@@ -1249,6 +1248,33 @@
         el.querySelector(".collapse-hdr")?.setAttribute("aria-expanded", "true");
       }
     }
+
+    // ─────────────────────────────────────────────
+    // NAV ACTIVE STATE — updates as user scrolls
+    // ─────────────────────────────────────────────
+
+    const navLinks = document.querySelectorAll(".nav-link");
+    const navSections = [
+      document.getElementById("about"),
+      document.getElementById("servers"),
+      document.getElementById("commands")
+    ];
+
+    function updateActiveNav() {
+      const navHeight = 54;
+      let current = navSections[0].id;
+      navSections.forEach(section => {
+        if (section.getBoundingClientRect().top <= navHeight + 10) {
+          current = section.id;
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+      });
+    }
+
+    window.addEventListener("scroll", updateActiveNav, { passive: true });
+    updateActiveNav();
 
   </script>
 </body>
