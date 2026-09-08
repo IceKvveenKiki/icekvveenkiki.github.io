@@ -763,10 +763,11 @@
           <div class="tz-wrap">
             <span class="tz-label">Server restart times in</span>
             <select id="tz-select" class="tz-select" aria-label="Timezone">
-              <option value="PDT">PDT</option>
+              <option value="PT">PDT</option>
+              <option value="CT">CDT</option>
               <option value="UTC">UTC</option>
-              <option value="EST">EST</option>
-              <option value="CET">CET</option>
+              <option value="ET">EDT</option>
+              <option value="CET">CEST</option>
             </select>
           </div>
         </div>
@@ -1003,12 +1004,43 @@
       return `<span class="perm-everyone">Everyone</span>`;
     }
 
-    const TZ_OFFSETS = { PDT: -7, UTC: 0, EST: -5, CET: 1 };
-    let selectedTZ = "PDT";
+    // Live IANA zones so PT/CT/ET/CET auto-flip between standard and daylight time.
+    const TZ_ZONES = {
+      PT:  { iana: "America/Los_Angeles", stdOffset: -480, dstLabel: "PDT", stdLabel: "PST" },
+      CT:  { iana: "America/Chicago",     stdOffset: -360, dstLabel: "CDT", stdLabel: "CST" },
+      UTC: { iana: "UTC",                 stdOffset: 0,    dstLabel: "UTC", stdLabel: "UTC" },
+      ET:  { iana: "America/New_York",    stdOffset: -300, dstLabel: "EDT", stdLabel: "EST" },
+      CET: { iana: "Europe/Berlin",       stdOffset: 60,   dstLabel: "CEST", stdLabel: "CET" }
+    };
+    let selectedTZ = "PT";
+
+    function tzOffsetMinutes(iana) {
+      const now = new Date();
+      const parts = {};
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: iana, hourCycle: "h23",
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", second: "2-digit"
+      }).formatToParts(now).forEach(p => { if (p.type !== "literal") parts[p.type] = p.value; });
+      const asUTC = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour, +parts.minute, +parts.second);
+      return Math.round((asUTC - now.getTime()) / 60000);
+    }
+
+    function tzLabel(key) {
+      const z = TZ_ZONES[key];
+      return tzOffsetMinutes(z.iana) === z.stdOffset ? z.stdLabel : z.dstLabel;
+    }
+
+    function initTZLabels() {
+      document.querySelectorAll("#tz-select option").forEach(opt => {
+        opt.textContent = tzLabel(opt.value);
+      });
+      document.getElementById("restarts-th").textContent = `Restarts (${tzLabel(selectedTZ)})`;
+    }
 
     function convertRestartTimes(str, toTZ) {
-      if (toTZ === "PDT") return str;
-      const diffMins = (TZ_OFFSETS[toTZ] - TZ_OFFSETS.PDT) * 60;
+      if (toTZ === "PT") return str;
+      const diffMins = tzOffsetMinutes(TZ_ZONES[toTZ].iana) - tzOffsetMinutes(TZ_ZONES.PT.iana);
       return str.replace(/\b(\d{1,2}):(\d{2})\s*(am|pm)\b/gi, (_, h, m, ampm) => {
         let hh = (+h) % 12;
         if (ampm.toLowerCase() === "pm") hh += 12;
@@ -1172,9 +1204,10 @@
     });
 
     // Timezone selector
+    initTZLabels();
     document.getElementById("tz-select").addEventListener("change", e => {
       selectedTZ = e.target.value;
-      document.getElementById("restarts-th").textContent = `Restarts (${selectedTZ})`;
+      document.getElementById("restarts-th").textContent = `Restarts (${tzLabel(selectedTZ)})`;
       renderServers();
     });
 
