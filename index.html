@@ -128,6 +128,28 @@
       display: grid;
       grid-template-columns: 1.65fr 1fr;
       gap: 16px;
+      align-items: stretch;
+    }
+
+    /* Left column: About stacked above the Steam widget */
+    .bento-col-left {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── Steam Widget Cell ── */
+    .steam-cell {
+      padding: 16px 18px;
+    }
+    .steam-cell .about-name {
+      margin-bottom: 12px;
+    }
+    .steam-cell iframe {
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: var(--radius-sm);
     }
 
     /* ── Bento Cell ── */
@@ -692,17 +714,28 @@
   <!-- ── Main ── -->
   <main class="main">
 
-    <!-- Row 1: About + Etsy -->
+    <!-- Row 1: About + Steam (left column) · Etsy (right column) -->
     <div class="bento-row-top">
 
-      <!-- About -->
-      <div class="bento" id="about">
-        <div class="bento-label">Hello and welcome!</div>
-        <div class="about-name"><span>This is Project Kiki</span></div>
-        <div class="about-handle">IceKvveenKiki · Twitch Streamer · SW Project Manager · Spreadsheet Enthusiast</div>
-        <p class="about-bio">
-          Hello, I'm Kiki! I stream DayZ on Twitch, create and sell nerdy merch on Etsy, and make a lot of spreadsheets. On this site, you'll find my trending DayZ server spreadsheet. This spreadsheet started as a personal reference guide for relevant server info, like restart times, IPs, and related Discords. If you have any feedback, send it my way! You can reach me at IceKvveenKiki@gmail.com. <br>This site is definitely a work in progress, but mostly I just wanted to try building a website. I have a few projects I'm actively working on, and once they're ready to ship, you'll find them here. <br>
-        </p>
+      <!-- Left column: About stacked above Steam widget -->
+      <div class="bento-col-left">
+
+        <!-- About -->
+        <div class="bento" id="about">
+          <div class="bento-label">Hello and welcome!</div>
+          <div class="about-name"><span>This is Project Kiki</span></div>
+          <div class="about-handle">IceKvveenKiki · Twitch Streamer · SW Project Manager · Spreadsheet Enthusiast</div>
+          <p class="about-bio">
+            Hello, I'm Kiki! I stream DayZ on Twitch, create and sell nerdy merch on Etsy, and make a lot of spreadsheets. On this site, you'll find my trending DayZ server spreadsheet. This spreadsheet started as a personal reference guide for relevant server info, like restart times, IPs, and related Discords. If you have any feedback, send it my way! You can reach me at IceKvveenKiki@gmail.com. <br>This site is definitely a work in progress, but mostly I just wanted to try building a website. I have a few projects I'm actively working on, and once they're ready to ship, you'll find them here. <br>
+          </p>
+        </div>
+
+        <!-- Steam widget -->
+        <div class="bento steam-cell">
+          <div class="about-name"><span>Badlands is coming October 15!</span></div>
+          <iframe src="https://store.steampowered.com/widget/3816030/" height="190" title="Steam store widget" loading="lazy"></iframe>
+        </div>
+
       </div>
 
       <!-- Etsy feature -->
