@@ -30,6 +30,7 @@
       --text-muted:     #948fac;  /* still readable on navy */
       --text-white:     #ffffff;
       --line:           rgba(243,236,228,0.08);
+      --divider:        rgba(243,236,228,0.22);
 
       --font-head: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -75,10 +76,17 @@
       letter-spacing: -0.02em;
       color: var(--pink);
     }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
     .nav-right {
       display: flex;
       align-items: center;
       gap: 24px;
+      padding-left: 24px;
+      border-left: 1px solid var(--divider);
     }
     .nav-links {
       display: flex;
@@ -102,7 +110,7 @@
       align-items: center;
       gap: 8px;
       padding-left: 24px;
-      border-left: 1px solid var(--line);
+      border-left: 1px solid var(--divider);
     }
     .nav-social .social-pill { padding: 6px 12px; font-size: 13px; }
     .nav-social .social-pill i { font-size: 17px; }
@@ -625,6 +633,7 @@
        slides in under the pinned nav (toggled by JS via .show-social). */
     @media (max-width: 1080px) {
       .social-bar { display: flex; }
+      .nav-right { padding-left: 0; border-left: none; }
       .nav-social {
         position: absolute;
         top: 100%;
@@ -748,13 +757,8 @@
 
   <!-- ── Nav ── -->
   <nav class="nav">
-    <div class="nav-logo">ProjectKiki.tv</div>
-    <div class="nav-right">
-      <div class="nav-links">
-        <a class="nav-link" href="#servers">DayZ Servers</a>
-        <a class="nav-link" href="#commands">Chat Commands</a>
-        <a class="nav-link" href="#about">About</a>
-      </div>
+    <div class="nav-left">
+      <div class="nav-logo">ProjectKiki.tv</div>
       <div class="nav-social">
       <a class="social-pill twitch" href="https://twitch.tv/icekvveenkiki" target="_blank" rel="noopener" aria-label="Twitch: IceKvveenKiki">
         <i class="ti ti-brand-twitch" aria-hidden="true"></i> <span class="pill-label">IceKvveenKiki</span>
@@ -768,6 +772,13 @@
       <a class="social-pill twitter" href="https://x.com/icekvveenkiki" target="_blank" rel="noopener" aria-label="X (Twitter)">
         <i class="ti ti-brand-x" aria-hidden="true"></i>
       </a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a class="nav-link" href="#servers">DayZ Servers</a>
+        <a class="nav-link" href="#commands">Chat Commands</a>
+        <a class="nav-link" href="#about">About</a>
       </div>
     </div>
   </nav>
